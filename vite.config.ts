@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ''),
           // NewsAPIが必要とするヘッダー情報を追加
           configure: (proxy, _options) => {
-            proxy.on('proxyReq', (proxyReq, req, _res) => {
+            proxy.on('proxyReq', (proxyReq, _req, _res) => {
               // 読み込んだ環境変数からAPIキーを設定する
               proxyReq.setHeader('x-api-key', env.VITE_NEWS_API_KEY);
             });
