@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/news.cjs": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/news",
+      "destination": "/api/news.cjs"
+    }
+  ]
+}

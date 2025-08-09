@@ -28,7 +28,7 @@ function App() {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          `/api/news.cjs`
+          `/api/news`
       );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
