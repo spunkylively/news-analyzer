@@ -28,7 +28,7 @@ function App() {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          `/api/v2/everything?q=トランプ&language=jp`
+          `https://newsapi.org/v2/everything?q=トランプ&language=jp&apiKey=${API_KEY}`
       );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
