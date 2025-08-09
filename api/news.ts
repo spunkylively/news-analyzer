@@ -1,13 +1,15 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// VercelRequest, VercelResponseはもう不要
+// import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse,
-) {
-  const NEWS_API_KEY = process.env.VITE_NEWS_API_KEY;
+// GETリクエストを処理する関数をexportする
+export async function GET(request: Request) {
+  const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
   if (!NEWS_API_KEY) {
-    return response.status(500).json({ error: 'API key is not configured' });
+    return new Response(JSON.stringify({ error: 'API key is not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -16,14 +18,24 @@ export default async function handler(
     );
 
     if (!newsResponse.ok) {
-      // NewsAPIからのエラーをそのままクライアントに返す
-      return response.status(newsResponse.status).json({ error: `News API error: ${newsResponse.statusText}` });
+      return new Response(JSON.stringify({ error: `News API error: ${newsResponse.statusText}` }), {
+        status: newsResponse.status,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const newsData = await newsResponse.json();
-    return response.status(200).json(newsData);
+    
+    // 成功した場合、JSONデータをResponseオブジェクトで返す
+    return new Response(JSON.stringify(newsData), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
 
   } catch (error: any) {
-    return response.status(500).json({ error: error.message });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
